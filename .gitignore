@@ -1,146 +1,169 @@
-# ===============================
-# .NET / C# / Visual Studio
-# ===============================
+# =====================================
+# .NET & Visual Studio
+# =====================================
 
 # Build results
-bin/
-obj/
-Debug/
-Release/
-x86/
+[Dd]ebug/
+[Dd]ebugPublic/
+[Rr]elease/
+[Rr]eleases/
 x64/
-arm/
-arm64/
+x86/
+[Ww][Ii][Nn]32/
+[Aa][Rr][Mm]/
+[Aa][Rr][Mm]64/
+bld/
+[Bb]in/
+[Oo]bj/
+[Ll]og/
+[Ll]ogs/
+*.log
 
 # Visual Studio cache/options
 .vs/
 .vscode/
-*.user
-*.suo
-*.sln.iml
+!.vscode/settings.json
+!.vscode/tasks.json
+!.vscode/launch.json
+!.vscode/extensions.json
+*.swp
+*.swo
+*~
 .DS_Store
 
-# Rider
-.idea/
-*.sln.iml
-.csproj.DotSettings.user
+# Visual Studio user-specific files
+*.suo
+*.user
+*.userosscache
+*.sln.docstates
+*.userprefs
 
-# Build output
-out/
-publish/
-PublishProfiles/
+# Visual Studio Code
+.code-workspace
+launch.json
+
+# Rider IDE
+.idea/
+.idea_modules/
+*.sln.iml
+*.DotSettings
+*.DotSettings.user
+
+# ResharperPlus
+_ReSharper*/
+*.[Rr]e[Ss]harper
+*.DotSettings.user
 
 # NuGet
-.nuget/
 *.nupkg
 *.snupkg
+.nuget/
 packages/
-.nupkg
+.nuget/
 
-# Test Results
-TestResults/
-*.trx
-*.coverage
-
-# Code coverage
-coverage/
-OpenCover/
-CodeCoverageReport/
-*.opencover.xml
-
-# ===============================
-# Database & Migrations
-# ===============================
-
-# SQLite databases
+# Entity Framework
 *.db
-*.db-wal
 *.db-shm
-card_issuance.db
-cadastro_clientes.db
-
-# EF Core
+*.db-wal
 migrations/
-*.sql
 
-# ===============================
-# Environment & Configuration
-# ===============================
+# =====================================
+# Sensitive Data & Environment
+# =====================================
 
 # Environment variables
 .env
 .env.local
 .env.*.local
-appsettings.Development.json
-appsettings.Production.json
-appsettings.Staging.json
+appsettings.*.json
+!appsettings.json
+!appsettings.Development.json
 
-# Configuration secrets
+# Secrets
 secrets.json
 user-secrets.json
+.user-secrets
+*.key
+*.pem
+*.pfx
+*.p12
 
-# ===============================
-# Logging & Artifacts
-# ===============================
+# API Keys and Credentials
+aws.json
+azure-credentials.json
+firebase-config.json
+.aws/
+.azure/
 
-# Log files
-logs/
-*.log
-Logs/
-log.txt
-error.log
-debug.log
-
-# Application logs
-App_Data/
-app_offline.htm
-
-# ===============================
-# IDE Files
-# ===============================
+# =====================================
+# IDE & Editor Files
+# =====================================
 
 # Visual Studio Code
-.vscode/*
-!.vscode/settings.json
-!.vscode/extensions.json
-!.vscode/launch.json
-!.vscode/tasks.json
+.vscode/
+*.code-workspace
 
 # JetBrains IDEs
 .idea/
 *.iml
 *.iws
 *.ipr
-*.reSharper
-.ReSharper
-.ReSharper.*
-*.resharper
-.resharper
-
-# Vim
-*.swp
-*.swo
-*~
 
 # Sublime Text
 *.sublime-project
 *.sublime-workspace
 
-# Emacs
-*~
-\#*\#
-.\#*
+# Notepad++
+notepadplusplus.xml
 
-# ===============================
-# OS Specific
-# ===============================
+# vim & neovim
+.vim/
+.nvim/
+[._]*.s[a-v][a-z]
+[._]*.sw[a-p]
+[._]s[a-v][a-z]
+[._]sw[a-p]
 
-# Windows
-Thumbs.db
-Desktop.ini
-.directory
-$RECYCLE.BIN/
-ehthumbs.db
+# =====================================
+# AI & ML Tools (IMPORTANTE)
+# =====================================
+
+# GitHub Copilot
+.github/copilot.json
+
+# Cursor AI
+.cursor/
+.cursorignore
+cursor.rules
+
+# Claude/Anthropic
+.claude/
+claude.rules
+*.claude
+.anthropic/
+
+# Copilot settings
+.copilot/
+
+# Codeium
+codeium.json
+
+# OpenAI
+.openai/
+
+# AI Assistant configs
+.ai/
+.ml/
+.assistant/
+
+# LLM Cache and Logs
+.llm_cache/
+llm_logs/
+*.ai_cache
+
+# =====================================
+# OS Files
+# =====================================
 
 # macOS
 .DS_Store
@@ -149,302 +172,135 @@ ehthumbs.db
 ._*
 .Spotlight-V100
 .Trashes
+ehthumbs.db
+
+# Windows
+Thumbs.db
+desktop.ini
+.lnk
 
 # Linux
 .nfs*
-.directory
 
-# ===============================
-# npm & Node
-# ===============================
+# =====================================
+# Build & Temporary Files
+# =====================================
+
+# Build artifacts
+dist/
+build/
+out/
+tmp/
+temp/
+
+# Test Coverage
+coverage/
+.coverage
+htmlcov/
+
+# NuGet temp
+.NuGetScratch/
+
+# Roslyn analyzers
+.roslyn/
+
+# Local History
+.localhistory/
+
+# =====================================
+# Node/NPM (se houver)
+# =====================================
 
 node_modules/
 npm-debug.log
-npm-error.log
 yarn-error.log
-package-lock.json
-yarn.lock
+.npm
+.eslintcache
 
-# ===============================
+# =====================================
 # Docker
-# ===============================
+# =====================================
 
-# Docker files (optional - remova comentário se quiser ignorar)
-Dockerfile
-docker-compose.override.yml
 .dockerignore
+docker-compose.override.yml
 
-# ===============================
+# =====================================
 # CI/CD
-# ===============================
+# =====================================
 
-# GitHub Actions
-.github/workflows/
-.github/secrets/
+.github/workflows/*.log
+.gitlab-ci.yml.local
 
-# Azure DevOps
-.Azure/
+# =====================================
+# Local Development
+# =====================================
 
-# GitLab CI
-.gitlab-ci.yml
+# Local database files
+*.db
+cadastro_clientes.db
+cadastro_clientes_dev.db
+cadastro_clientes_test.db
 
-# ===============================
-# Temporary Files
-# ===============================
+# Local files
+local/
+Local/
+*.local
 
-# Temp directories
-temp/
-tmp/
-Temp/
+# Temporary files
 *.tmp
+*.temp
 *.bak
-*.swp
-*.orig
 
-# System files
-*.DS_Store
-Thumbs.db
-.directory
+# =====================================
+# Dependency Lock Files (opcional)
+# =====================================
 
-# ===============================
-# IDE Generated Files
-# ===============================
+# Uncomment if you want to commit lock files
+# packages.lock.json
 
-# JetBrains
-*.class
-*.iml
+# =====================================
+# Project Specific
+# =====================================
 
-# Visual Studio
+# Test Results
+TestResults/
+*.trx
+*.coverage
+
+# BenchmarkDotNet
+BenchmarkDotNet.Artifacts/
+
+# Diagnostic files
+*.dmp
+*.log
+diagd*/
+
+# =====================================
+# IDE-Specific Folders
+# =====================================
+
+.vscode/
+.idea/
 .vs/
 bin/
 obj/
-*.csproj.user
-*.csproj.VisualStudio.user
 
-# Rider
-.idea/
+# =====================================
+# Arquivos de Cache
+# =====================================
 
-# ===============================
-# Package Manager
-# ===============================
-
-# NuGet
-.nuget/
-packages.lock.json
-
-# ===============================
-# Build Artifacts (não versionar)
-# ===============================
-
-# Build output
-*.o
-*.a
-*.so
-*.dylib
-*.dll
-*.exe
-*.out
-
-# Except for tracked DLLs (se necessário)
-!/Libs/**/*.dll
-
-# ===============================
-# IDE-specific Generated Code
-# ===============================
-
-# Code generation tools output
-Generated/
-generated/
-AutoGenerated/
-
-# ===============================
-# Local Development
-# ===============================
-
-# Local override files
-local.settings.json
-.localhistory/
-
-# ===============================
-# Sensitive Information (CRÍTICO)
-# ===============================
-
-# Credentials and secrets
-*.pem
-*.key
-*.crt
-*.pfx
-*.p12
-appsettings.Production.json
-secrets.json
-.env.production
-.env.*.local
-
-# AWS
-.aws/
-aws-credentials.json
-
-# Azure
-.azure/
-.azurerc
-
-# GCP
-.gcp/
-google-credentials.json
-
-# SSH Keys
-.ssh/
-id_rsa
-id_dsa
-id_ecdsa
-id_ed25519
-
-# ===============================
-# Cache
-# ===============================
-
-# Cache directories
 .cache/
 cache/
-.csc/
-
-# NuGet cache
-.nuget/
-
-# Nuget packages
-*.nupkg
-
-# ===============================
-# Analysis Tools
-# ===============================
-
-# StyleCop
-StyleCopReport.xml
-StyleCopCache/
-
-# FxCop
-FxCopResults.xml
-
-# OpenCover
-**/coverage/**
-
-# JetBrains Coverage
-.coverage/
-.idea/coverage/
-
-# ===============================
-# Roslyn Analyzers Cache
-# ===============================
-
-.roslyn/
-
-# ===============================
-# Build Output Directories (não versionar)
-# ===============================
-
-# Interop output
-obj/
-bin/
-Debug/
-Release/
-
-# ===============================
-# Ignore but include for compilation
-# ===============================
-
-# NuGet.exe (usually not committed, but some projects include)
-# nuget.exe
-
-# ===============================
-# Project-specific
-# ===============================
-
-# SQLite database files (exceto migrations)
-*.db
-card_issuance.db
-*.sqlite
-*.sqlite3
-
-# Local database backup
-*.bak
-
-# RabbitMQ state
-.rabbit/
-
-# ===============================
-# IDE Workspace
-# ===============================
-
-# Eclipse
-.classpath
-.project
-.settings/
-
-# VS Code workspace settings (local)
-.vscode/settings.json.local
-
-# ===============================
-# Documentation (build output only)
-# ===============================
-
-# Swagger/OpenAPI generated docs (if auto-generated)
-swagger-ui/
-api-docs/
-
-# ===============================
-# Testing
-# ===============================
-
-# Test coverage
-*.coverage
-*.coveragexml
-OpenCover/
-coverage.xml
-TestResults/
-.opencoverage/
-
-# Nunit
-nunit-results.xml
-TestResult.xml
-
-# xUnit
-xunit.runner.json
-
-# Test data (if local)
-test-data/
-test-results/
-
-# ===============================
-# Final Catch-all (keep last)
-# ===============================
-
-# Anything else suspicious
-*.tmp
-*.bak
-*.backup
-*.old
-*.orig
 *.cache
+.eslintcache
 
-# IDE temporary
-.editorconfig.local
-.prettierignore.local
+# =====================================
+# Excludes
+# =====================================
 
-# VS IntelliCode
-.vs/PythonSettings.json
-
-# Global git ignore
+# Negar (incluir)
 !.gitkeep
 !.github/
 !.gitattributes
+!.editorconfig
 
-# ===============================
-# Allowed Exceptions
-# ===============================
-
-# If you have important files to track despite patterns above:
-# Uncomment and adjust as needed
-
-# !important-dll.dll
-# !config.Production.json
-# !migrations/
