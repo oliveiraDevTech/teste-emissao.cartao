@@ -1,9 +1,9 @@
 using Driven.RabbitMQ.Events;
-using Driven.RabbitMQ.Interfaces;
-using Driven.RabbitMQ.Settings;
 using Microsoft.Extensions.Logging;
 using Microsoft.Extensions.Options;
 using Core.Application.Interfaces;
+using RabbitMQPublisher = Driven.RabbitMQ.Interfaces.IMessagePublisher;
+using RabbitMQSettings = Driven.RabbitMQ.Settings.RabbitMQSettings;
 
 namespace Driving.Api.Handlers;
 
@@ -15,13 +15,13 @@ namespace Driving.Api.Handlers;
 public class PedidoEmissaoCartaoEventHandler
 {
     private readonly ICardRepository _cardRepository;
-    private readonly IMessagePublisher _messagePublisher;
+    private readonly RabbitMQPublisher _messagePublisher;
     private readonly ILogger<PedidoEmissaoCartaoEventHandler> _logger;
     private readonly RabbitMQSettings _rabbitMQSettings;
 
     public PedidoEmissaoCartaoEventHandler(
         ICardRepository cardRepository,
-        IMessagePublisher messagePublisher,
+        RabbitMQPublisher messagePublisher,
         ILogger<PedidoEmissaoCartaoEventHandler> logger,
         IOptions<RabbitMQSettings> rabbitMQSettings)
     {
