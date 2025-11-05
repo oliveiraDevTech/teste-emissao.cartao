@@ -165,9 +165,8 @@ try
         var pedidoEmissaoHandler = app.Services.GetRequiredService<Core.Application.Handlers.PedidoEmissaoCartaoEventHandler>();
         var logger = app.Services.GetRequiredService<Microsoft.Extensions.Logging.ILogger<Program>>();
         
-        // Obter configurações do RabbitMQ incluindo nomes das filas
-        var rabbitMQSettings = app.Configuration.GetSection("RabbitMQ").Get<Driven.RabbitMQ.Settings.RabbitMQSettings>();
-        var queueName = rabbitMQSettings?.Queues?.CartaoEmissaoPedido ?? "cartao.emissao.pedido";
+        // Nome da fila configurado no appsettings ou padrão
+        var queueName = app.Configuration["RabbitMQ:PedidoEmissaoQueue"] ?? "cartao.emissao.pedido";
 
         // Subscrever ao evento de pedido de emissão de cartão
         try
