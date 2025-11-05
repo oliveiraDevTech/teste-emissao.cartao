@@ -98,6 +98,9 @@ builder.Services.AddCors(options =>
 // Injeção de dependências - Camada de Aplicação
 builder.Services.AddApplicationServices(jwtSecret, "CardIssuanceApi", "CardIssuanceApp", 60);
 
+// Registrar handler de eventos (camada Driving)
+builder.Services.AddScoped<PedidoEmissaoCartaoEventHandler>();
+
 // Injeção de dependências - Camada de Dados
 var connectionString = builder.Configuration.GetConnectionString("DefaultConnection")
     ?? "Data Source=card_issuance.db;";
