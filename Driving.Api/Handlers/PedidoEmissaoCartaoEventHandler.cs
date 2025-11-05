@@ -1,8 +1,11 @@
 using Driven.RabbitMQ.Events;
+using Driven.RabbitMQ.Interfaces;
+using Driven.RabbitMQ.Settings;
 using Microsoft.Extensions.Logging;
+using Microsoft.Extensions.Options;
 using Core.Application.Interfaces;
 
-namespace Core.Application.Handlers;
+namespace Driving.Api.Handlers;
 
 /// <summary>
 /// Handler para processar eventos de pedido de emissão de cartão
@@ -12,15 +15,15 @@ namespace Core.Application.Handlers;
 public class PedidoEmissaoCartaoEventHandler
 {
     private readonly ICardRepository _cardRepository;
-    private readonly Driven.RabbitMQ.Interfaces.IMessagePublisher _messagePublisher;
+    private readonly IMessagePublisher _messagePublisher;
     private readonly ILogger<PedidoEmissaoCartaoEventHandler> _logger;
-    private readonly Driven.RabbitMQ.Settings.RabbitMQSettings _rabbitMQSettings;
+    private readonly RabbitMQSettings _rabbitMQSettings;
 
     public PedidoEmissaoCartaoEventHandler(
         ICardRepository cardRepository,
-        Driven.RabbitMQ.Interfaces.IMessagePublisher messagePublisher,
+        IMessagePublisher messagePublisher,
         ILogger<PedidoEmissaoCartaoEventHandler> logger,
-        IOptions<Driven.RabbitMQ.Settings.RabbitMQSettings> rabbitMQSettings)
+        IOptions<RabbitMQSettings> rabbitMQSettings)
     {
         _cardRepository = cardRepository;
         _messagePublisher = messagePublisher;

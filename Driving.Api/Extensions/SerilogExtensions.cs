@@ -23,7 +23,7 @@ namespace Driving.Api.Extensions
             {
                 // Obter nível mínimo de log
                 var minimumLevel = Enum.Parse<LogEventLevel>(
-                    serilogConfig.GetValue<string>("MinimumLevel", "Information")
+                    serilogConfig.GetValue<string>("MinimumLevel", "Information") ?? "Information"
                 );
 
                 loggerConfig
@@ -67,7 +67,7 @@ namespace Driving.Api.Extensions
             var outputTemplate = sinkConfig.GetValue<string>(
                 "Args:outputTemplate",
                 "[{Timestamp:yyyy-MM-dd HH:mm:ss.fff zzz}] [{Level:u3}] {Message:lj}{NewLine}{Exception}"
-            );
+            ) ?? "[{Timestamp:yyyy-MM-dd HH:mm:ss.fff zzz}] [{Level:u3}] {Message:lj}{NewLine}{Exception}";
 
             loggerConfig.WriteTo.Console(
                 outputTemplate: outputTemplate
@@ -83,12 +83,12 @@ namespace Driving.Api.Extensions
         {
             var path = sinkConfig.GetValue<string>("Args:path", "logs/app-.txt");
             var rollingInterval = Enum.Parse<RollingInterval>(
-                sinkConfig.GetValue<string>("Args:rollingInterval", "Day")
+                sinkConfig.GetValue<string>("Args:rollingInterval", "Day") ?? "Day"
             );
             var outputTemplate = sinkConfig.GetValue<string>(
                 "Args:outputTemplate",
                 "[{Timestamp:yyyy-MM-dd HH:mm:ss.fff zzz}] [{Level:u3}] {Message:lj}{NewLine}{Exception}"
-            );
+            ) ?? "[{Timestamp:yyyy-MM-dd HH:mm:ss.fff zzz}] [{Level:u3}] {Message:lj}{NewLine}{Exception}";
 
             // Criar diretório de logs se não existir
             var logDir = Path.GetDirectoryName(path);
@@ -98,7 +98,7 @@ namespace Driving.Api.Extensions
             }
 
             loggerConfig.WriteTo.File(
-                path: path,
+                path: path ?? "logs/app-.txt",
                 rollingInterval: rollingInterval,
                 outputTemplate: outputTemplate,
                 fileSizeLimitBytes: 104857600, // 100 MB

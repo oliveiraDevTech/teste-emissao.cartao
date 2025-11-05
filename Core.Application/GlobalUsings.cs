@@ -11,3 +11,9 @@ global using Core.Application.Interfaces.Services;
 
 // Services
 global using Core.Application.Services;
+
+// Configuration
+global using Microsoft.Extensions.Options;
+
+// Logging
+global using Microsoft.Extensions.Logging;

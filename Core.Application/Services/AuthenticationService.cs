@@ -50,36 +50,36 @@ public class AuthenticationService : IAuthenticationService
     /// <summary>
     /// Realiza autenticação do usuário
     /// </summary>
-    public async Task<ApiResponseDto<LoginResponseDto>> AutenticarAsync(LoginDto login)
+    public Task<ApiResponseDto<LoginResponseDto>> AutenticarAsync(LoginDto login)
     {
         try
         {
             // Validar credenciais
             if (string.IsNullOrWhiteSpace(login.Usuario) || string.IsNullOrWhiteSpace(login.Senha))
             {
-                return new ApiResponseDto<LoginResponseDto>
+                return Task.FromResult(new ApiResponseDto<LoginResponseDto>
                 {
                     Sucesso = false,
                     Mensagem = "Usuário ou senha inválidos",
                     Erros = new List<string> { "Usuário e senha são obrigatórios" }
-                };
+                });
             }
 
             // Verificar credenciais (implementação simplificada)
             if (login.Usuario != DefaultUser || login.Senha != DefaultPassword)
             {
-                return new ApiResponseDto<LoginResponseDto>
+                return Task.FromResult(new ApiResponseDto<LoginResponseDto>
                 {
                     Sucesso = false,
                     Mensagem = "Usuário ou senha inválidos",
                     Erros = new List<string> { "Credenciais fornecidas não conferem" }
-                };
+                });
             }
 
             // Gerar token JWT
             var token = GerarToken(login.Usuario);
 
-            return new ApiResponseDto<LoginResponseDto>
+            return Task.FromResult(new ApiResponseDto<LoginResponseDto>
             {
                 Sucesso = true,
                 Mensagem = "Autenticação realizada com sucesso",
@@ -90,16 +90,16 @@ public class AuthenticationService : IAuthenticationService
                     ExpiracaoEm = _jwtExpirationMinutes * 60, // converter para segundos
                     Mensagem = "Autenticação realizada com sucesso"
                 }
-            };
+            });
         }
         catch (Exception ex)
         {
-            return new ApiResponseDto<LoginResponseDto>
+            return Task.FromResult(new ApiResponseDto<LoginResponseDto>
             {
                 Sucesso = false,
                 Mensagem = "Erro ao autenticar",
                 Erros = new List<string> { ex.Message }
-            };
+            });
         }
     }
 
