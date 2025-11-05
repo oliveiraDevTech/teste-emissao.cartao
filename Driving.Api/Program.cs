@@ -152,36 +152,7 @@ using (var scope = app.Services.CreateScope())
     Console.WriteLine("🔄 Criando banco de dados...");
     dbContext.Database.EnsureCreated();
     Console.WriteLine("✅ Banco de dados criado com sucesso!");
-
-    // ========== SEED DE USUÁRIO PADRÃO ==========
-    
-    // Verificar se já existe usuário padrão
-    var usuarioExiste = dbContext.Usuarios.Any(u => u.Login == "user");
-    
-    if (!usuarioExiste)
-    {
-        Console.WriteLine("🔄 Criando usuário padrão...");
-        
-        // Criar usuário padrão: user / password
-        var usuario = Core.Domain.Entities.Usuario.Criar(
-            login: "user",
-            email: "user@sistema.com",
-            senha: "password",  // Esta senha será hash-ada automaticamente pelo método Criar
-            nomeCompleto: "Usuário Padrão",
-            telefone: "11999999999"
-        );
-        
-        dbContext.Usuarios.Add(usuario);
-        dbContext.SaveChanges();
-        
-        Console.WriteLine("✅ Usuário padrão criado com sucesso!");
-        Console.WriteLine("   Login: user");
-        Console.WriteLine("   Senha: password");
-    }
-    else
-    {
-        Console.WriteLine("ℹ️  Usuário padrão já existe no banco de dados");
-    }
+    Console.WriteLine("ℹ️  Autenticação gerenciada pelo microserviço cadastro-cliente");
 }
 
 // ========== INICIALIZAR RABBITMQ (COM FALLBACK) ==========
