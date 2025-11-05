@@ -3,11 +3,13 @@ using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.IdentityModel.Tokens;
 using Core.Application;
+using Core.Application.Handlers;
 using Core.Infra.CardIssuance;
 using Driven.SqlLite;
 using Driven.SqlLite.Data;
 using Driven.RabbitMQ;
 using Driven.RabbitMQ.Interfaces;
+using Driven.RabbitMQ.Events;
 using Core.Infra;
 
 var builder = WebApplication.CreateBuilder(args);
@@ -162,7 +164,7 @@ try
         // ========== INICIALIZAR CONSUMIDORES DE EVENTOS ==========
 
         var subscriber = app.Services.GetRequiredService<IMessageSubscriber>();
-        var pedidoEmissaoHandler = app.Services.GetRequiredService<Core.Application.Handlers.PedidoEmissaoCartaoEventHandler>();
+        var pedidoEmissaoHandler = app.Services.GetRequiredService<PedidoEmissaoCartaoEventHandler>();
         var logger = app.Services.GetRequiredService<Microsoft.Extensions.Logging.ILogger<Program>>();
         
         // Nome da fila configurado no appsettings ou padrão
@@ -171,7 +173,7 @@ try
         // Subscrever ao evento de pedido de emissão de cartão
         try
         {
-            await subscriber.SubscribeAsync<Driven.RabbitMQ.Events.PedidoEmissaoCartaoIntegrationEvent>(
+            await subscriber.SubscribeAsync<PedidoEmissaoCartaoIntegrationEvent>(
                 queueName: queueName,
                 handler: async (evento) =>
                 {
