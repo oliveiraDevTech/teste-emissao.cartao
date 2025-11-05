@@ -144,17 +144,9 @@ app.MapControllers();
 using (var scope = app.Services.CreateScope())
 {
     var dbContext = scope.ServiceProvider.GetRequiredService<ApplicationDbContext>();
-    try
-    {
-        // Apply pending migrations
-        dbContext.Database.Migrate();
-    }
-    catch (Exception ex)
-    {
-        Console.WriteLine($"⚠️  Erro ao aplicar migrations: {ex.Message}");
-        // Fallback to EnsureCreated if migrations fail
-        dbContext.Database.EnsureCreated();
-    }
+    Console.WriteLine("🔄 Criando banco de dados...");
+    dbContext.Database.EnsureCreated();
+    Console.WriteLine("✅ Banco de dados criado com sucesso!");
 }
 
 // ========== INICIALIZAR RABBITMQ (COM FALLBACK) ==========
@@ -166,6 +158,34 @@ try
     if (messageBus?.TryConnect() ?? false)
     {
         Console.WriteLine("✅ RabbitMQ conectado com sucesso");
+
+        // ========== INICIALIZAR CONSUMIDORES DE EVENTOS ==========
+
+        var subscriber = app.Services.GetRequiredService<IMessageSubscriber>();
+        var pedidoEmissaoHandler = app.Services.GetRequiredService<Core.Application.Handlers.PedidoEmissaoCartaoEventHandler>();
+        var logger = app.Services.GetRequiredService<Microsoft.Extensions.Logging.ILogger<Program>>();
+        
+        // Obter configurações do RabbitMQ incluindo nomes das filas
+        var rabbitMQSettings = app.Configuration.GetSection("RabbitMQ").Get<Driven.RabbitMQ.Settings.RabbitMQSettings>();
+        var queueName = rabbitMQSettings?.Queues?.CartaoEmissaoPedido ?? "cartao.emissao.pedido";
+
+        // Subscrever ao evento de pedido de emissão de cartão
+        try
+        {
+            await subscriber.SubscribeAsync<Driven.RabbitMQ.Events.PedidoEmissaoCartaoIntegrationEvent>(
+                queueName: queueName,
+                handler: async (evento) =>
+                {
+                    logger.LogInformation("Evento PedidoEmissaoCartaoIntegrationEvent recebido para cliente {ClienteId}", evento.ClienteId);
+                    await pedidoEmissaoHandler.HandleAsync(evento);
+                });
+
+            Console.WriteLine("✅ Consumer de PedidoEmissaoCartaoIntegrationEvent inicializado");
+        }
+        catch (Exception ex)
+        {
+            logger.LogError(ex, "Erro ao inicializar consumer de PedidoEmissaoCartaoIntegrationEvent");
+        }
     }
 }
 catch (InvalidOperationException ex)
