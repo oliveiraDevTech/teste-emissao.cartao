@@ -127,8 +127,8 @@ public sealed class CardIssuanceService
             NumeroMascarado = MascararPan(card.TokenPan),
             Tipo = card.Tipo,
             Status = card.Status,
-            LimiteCredito = card.LimiteCredito,
-            DataEmissao = card.DataEmissao,
+            LimiteCredito = card.LimiteCreditoAprovado,
+            DataEmissao = card.DataCriacao,
             DataAtivacao = card.DataAtivacao
         }).ToList();
 
@@ -141,22 +141,17 @@ public sealed class CardIssuanceService
 
     private string MascararPan(string tokenPan)
     {
-        // Tentar recuperar PAN real do vault
-        try
-        {
-            var pan = _tokenVault.RecuperarPan(tokenPan);
-            if (pan.Length >= 16)
-            {
-                return $"{pan.Substring(0, 4)} **** **** {pan.Substring(12, 4)}";
-            }
-        }
-        catch (Exception ex)
-        {
-            _logger.LogWarning(ex, "Erro ao recuperar PAN do vault. Token={Token}", tokenPan);
-        }
-
-        // Fallback: mascarar o token
-        return $"**** **** **** {tokenPan.Substring(Math.Max(0, tokenPan.Length - 4))}";
+        // Como TokenVault não expõe PAN real (segurança PCI-DSS),
+        // retornar máscara genérica
+        if (string.IsNullOrWhiteSpace(tokenPan))
+            return "**** **** **** ****";
+            
+        // Usar últimos 4 caracteres do token como identificador
+        var lastFour = tokenPan.Length >= 4 
+            ? tokenPan.Substring(tokenPan.Length - 4) 
+            : tokenPan.PadLeft(4, '0');
+            
+        return $"**** **** **** {lastFour}";
     }
 
     private void ValidarRequisicao(CardIssuanceRequestDTO request)

@@ -50,14 +50,9 @@ public class PedidoEmissaoCartaoEventHandler
                 ChaveIdempotencia = evento.ChaveIdempotencia,
                 Entrega = new DeliveryConfigDTO
                 {
-                    TipoEntrega = evento.Entrega.TipoEntrega,
-                    EnderecoEntrega = new DeliveryAddressDTO
-                    {
-                        Logradouro = evento.Entrega.EnderecoEntrega.Logradouro,
-                        Cidade = evento.Entrega.EnderecoEntrega.Cidade,
-                        Estado = evento.Entrega.EnderecoEntrega.Estado,
-                        Cep = evento.Entrega.EnderecoEntrega.Cep
-                    }
+                    // Mapear TipoEntrega do evento para flags Fisico/Virtual
+                    Fisico = evento.Entrega.TipoEntrega != "VIRTUAL",
+                    Virtual = evento.Entrega.TipoEntrega == "VIRTUAL" || evento.Entrega.TipoEntrega == "AMBOS"
                 }
             };
 
