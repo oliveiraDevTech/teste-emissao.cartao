@@ -1,5 +1,4 @@
-/-+-+000000000000000000-+--+-000000000000000000000000000000-++--+
--+*/using Microsoft.Extensions.Options;
+using Microsoft.Extensions.Options;
 using Driven.RabbitMQ.Interfaces;
 using Driven.RabbitMQ.Settings;
 using RabbitMQ.Client;
