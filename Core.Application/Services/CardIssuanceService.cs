@@ -109,6 +109,56 @@ public sealed class CardIssuanceService
         }
     }
 
+    /// <summary>
+    /// Obtém cartões emitidos para um cliente específico
+    /// </summary>
+    public async Task<List<CartaoClienteDTO>> ObterCartoesPorClienteAsync(Guid clienteId, CancellationToken ct = default)
+    {
+        if (clienteId == Guid.Empty)
+            throw new ArgumentException("ClienteId não pode ser vazio");
+
+        _logger.LogInformation("Consultando cartões para cliente. ClienteId={ClienteId}", clienteId);
+
+        var cards = await _cardRepository.ObterPorClienteAsync(clienteId, ct);
+
+        var result = cards.Select(card => new CartaoClienteDTO
+        {
+            Id = card.Id,
+            NumeroMascarado = MascararPan(card.TokenPan),
+            Tipo = card.Tipo,
+            Status = card.Status,
+            LimiteCredito = card.LimiteCredito,
+            DataEmissao = card.DataEmissao,
+            DataAtivacao = card.DataAtivacao
+        }).ToList();
+
+        _logger.LogInformation(
+            "Cartões retornados. ClienteId={ClienteId}, Quantidade={Quantidade}",
+            clienteId, result.Count);
+
+        return result;
+    }
+
+    private string MascararPan(string tokenPan)
+    {
+        // Tentar recuperar PAN real do vault
+        try
+        {
+            var pan = _tokenVault.RecuperarPan(tokenPan);
+            if (pan.Length >= 16)
+            {
+                return $"{pan.Substring(0, 4)} **** **** {pan.Substring(12, 4)}";
+            }
+        }
+        catch (Exception ex)
+        {
+            _logger.LogWarning(ex, "Erro ao recuperar PAN do vault. Token={Token}", tokenPan);
+        }
+
+        // Fallback: mascarar o token
+        return $"**** **** **** {tokenPan.Substring(Math.Max(0, tokenPan.Length - 4))}";
+    }
+
     private void ValidarRequisicao(CardIssuanceRequestDTO request)
     {
         if (request == null)

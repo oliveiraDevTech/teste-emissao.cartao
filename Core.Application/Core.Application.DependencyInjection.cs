@@ -31,6 +31,9 @@ public static class DependencyInjectionExtensions
         services.AddScoped<CardIssuanceService>();
         services.AddScoped<CardActivationService>();
 
+        // Registrar handlers de eventos
+        services.AddScoped<Handlers.PedidoEmissaoCartaoEventHandler>();
+
         return services;
     }
 }

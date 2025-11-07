@@ -165,6 +165,47 @@ public class CardsController : ControllerBase
         }
     }
 
+    /// <summary>
+    /// Consulta cartões emitidos para um cliente específico
+    /// </summary>
+    /// <param name="clienteId">ID do cliente</param>
+    /// <returns>Lista de cartões do cliente</returns>
+    /// <response code="200">Cartões retornados com sucesso</response>
+    /// <response code="500">Erro interno</response>
+    [HttpGet("cliente/{clienteId:guid}")]
+    [ProducesResponseType(typeof(List<CartaoClienteDTO>), StatusCodes.Status200OK)]
+    [ProducesResponseType(typeof(ProblemDetails), StatusCodes.Status500InternalServerError)]
+    public async Task<IActionResult> ObterCartoesPorCliente(
+        [FromRoute] Guid clienteId,
+        CancellationToken ct)
+    {
+        try
+        {
+            _logger.LogInformation(
+                "Consultando cartões para cliente. ClienteId={ClienteId}",
+                clienteId);
+
+            var cartoes = await _issuanceService.ObterCartoesPorClienteAsync(clienteId, ct);
+
+            _logger.LogInformation(
+                "Cartões retornados com sucesso. ClienteId={ClienteId}, Quantidade={Quantidade}",
+                clienteId, cartoes.Count);
+
+            return Ok(cartoes);
+        }
+        catch (Exception ex)
+        {
+            _logger.LogError(ex, "Erro ao consultar cartões do cliente. ClienteId={ClienteId}", clienteId);
+            return StatusCode(StatusCodes.Status500InternalServerError,
+                new ProblemDetails
+                {
+                    Title = "Erro interno",
+                    Detail = "Falha ao consultar cartões",
+                    Status = StatusCodes.Status500InternalServerError
+                });
+        }
+    }
+
 }
 
 /// <summary>
@@ -175,5 +216,19 @@ public class CardIssuanceResponseDTO
     public List<CartaoEmitidoDTO> Cartoes { get; set; } = new();
     public string CorrelacaoId { get; set; } = string.Empty;
     public DateTime DataEmissao { get; set; }
+}
+
+/// <summary>
+/// DTO para cartão do cliente (retornado nas consultas)
+/// </summary>
+public class CartaoClienteDTO
+{
+    public Guid Id { get; set; }
+    public string NumeroMascarado { get; set; } = string.Empty;
+    public string Tipo { get; set; } = string.Empty;
+    public string Status { get; set; } = string.Empty;
+    public decimal LimiteCredito { get; set; }
+    public DateTime DataEmissao { get; set; }
+    public DateTime? DataAtivacao { get; set; }
 }
 

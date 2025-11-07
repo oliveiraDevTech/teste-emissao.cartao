@@ -1,4 +1,5 @@
-using Microsoft.Extensions.Options;
+/-+-+000000000000000000-+--+-000000000000000000000000000000-++--+
+-+*/using Microsoft.Extensions.Options;
 using Driven.RabbitMQ.Interfaces;
 using Driven.RabbitMQ.Settings;
 using RabbitMQ.Client;
@@ -41,8 +42,7 @@ public class RabbitMQConnectionFactory : IMessageBus
                 VirtualHost = _settings.VirtualHost,
                 RequestedConnectionTimeout = TimeSpan.FromMilliseconds(_settings.ConnectionTimeout),
                 AutomaticRecoveryEnabled = true,
-                NetworkRecoveryInterval = TimeSpan.FromSeconds(10),
-                DispatchConsumersAsync = true  // CRÍTICO: Necessário para AsyncEventingBasicConsumer funcionar
+                NetworkRecoveryInterval = TimeSpan.FromSeconds(10)
             };
 
             _connection = factory.CreateConnection();

@@ -11,29 +11,69 @@ public class PedidoEmissaoCartaoIntegrationEvent : DomainEvent
     public Guid ClienteId { get; set; }
 
     /// <summary>
-    /// Nome completo do cliente
+    /// ID da proposta de crédito
     /// </summary>
-    public string Nome { get; set; } = string.Empty;
+    public Guid PropostaId { get; set; }
 
     /// <summary>
-    /// CPF do cliente
+    /// ID da conta bancária do cliente
     /// </summary>
-    public string CPF { get; set; } = string.Empty;
+    public Guid ContaId { get; set; }
 
     /// <summary>
-    /// Email do cliente
+    /// Código do produto (ex: CREDIT_CARD_PLATINUM)
     /// </summary>
-    public string Email { get; set; } = string.Empty;
+    public string CodigoProduto { get; set; } = string.Empty;
 
     /// <summary>
-    /// Score de crédito atual do cliente
+    /// Quantidade de cartões a emitir
     /// </summary>
-    public int ScoreCredito { get; set; }
+    public int QuantidadeCartoesEmitir { get; set; }
 
     /// <summary>
-    /// Data do pedido
+    /// Limite de crédito por cartão
     /// </summary>
-    public DateTime DataPedido { get; set; }
+    public decimal LimiteCreditoPorCartao { get; set; }
+
+    /// <summary>
+    /// ID de correlação para rastreamento
+    /// </summary>
+    public string CorrelacaoId { get; set; } = string.Empty;
+
+    /// <summary>
+    /// Chave de idempotência para evitar duplicatas
+    /// </summary>
+    public string ChaveIdempotencia { get; set; } = string.Empty;
+
+    /// <summary>
+    /// Informações de entrega
+    /// </summary>
+    public EntregaInfo Entrega { get; set; } = new();
+
+    /// <summary>
+    /// Data da solicitação
+    /// </summary>
+    public DateTime DataSolicitacao { get; set; }
+}
+
+/// <summary>
+/// Informações de entrega do cartão
+/// </summary>
+public class EntregaInfo
+{
+    public string TipoEntrega { get; set; } = string.Empty;
+    public EnderecoEntregaInfo EnderecoEntrega { get; set; } = new();
+}
+
+/// <summary>
+/// Endereço de entrega
+/// </summary>
+public class EnderecoEntregaInfo
+{
+    public string Logradouro { get; set; } = string.Empty;
+    public string Cidade { get; set; } = string.Empty;
+    public string Estado { get; set; } = string.Empty;
+    public string Cep { get; set; } = string.Empty;
 }
 
 /// <summary>
