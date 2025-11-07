@@ -3,13 +3,13 @@ using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.IdentityModel.Tokens;
 using Core.Application;
+using Core.Application.Handlers;
 using Core.Infra.CardIssuance;
 using Driven.SqlLite;
 using Driven.SqlLite.Data;
 using Driven.RabbitMQ;
 using Driven.RabbitMQ.Interfaces;
 using Driven.RabbitMQ.Events;
-using Driving.Api.Handlers;
 using Core.Infra;
 
 var builder = WebApplication.CreateBuilder(args);
