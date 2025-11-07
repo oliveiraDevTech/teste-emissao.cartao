@@ -174,7 +174,7 @@ try
         // ========== INICIALIZAR CONSUMIDORES DE EVENTOS ==========
 
         var subscriber = app.Services.GetRequiredService<IMessageSubscriber>();
-        var pedidoEmissaoHandler = app.Services.GetRequiredService<PedidoEmissaoCartaoEventHandler>();
+        var serviceScopeFactory = app.Services.GetRequiredService<IServiceScopeFactory>();
         var logger = app.Services.GetRequiredService<Microsoft.Extensions.Logging.ILogger<Program>>();
         
         // Nome da fila configurado no appsettings ou padrão
@@ -187,6 +187,8 @@ try
                 queueName: queueName,
                 handler: async (evento) =>
                 {
+                    using var scope = serviceScopeFactory.CreateScope();
+                    var pedidoEmissaoHandler = scope.ServiceProvider.GetRequiredService<PedidoEmissaoCartaoEventHandler>();
                     logger.LogInformation("Evento PedidoEmissaoCartaoIntegrationEvent recebido para cliente {ClienteId}", evento.ClienteId);
                     await pedidoEmissaoHandler.HandleAsync(evento);
                 });
